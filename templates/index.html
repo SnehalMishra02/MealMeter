@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mealmeter</title>
+  <style>
+    /* Add your custom CSS styles here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .input-field {
+      margin-bottom: 20px;
+    }
+    .image-preview {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .response {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Mealmeter</h1>
+    </div>
+    <div class="input-field">
+      <label for="input">Input Prompt:</label>
+      <input type="text" id="input" name="input">
+    </div>
+    <div class="image-preview" id="imagePreview"></div>
+    <input type="file" id="fileInput" accept=".jpg, .jpeg, .png">
+    <button id="calculateBtn">Submit</button>
+    <h1>or</h1>
+    <label for="input1">Input Prompt:</label>
+      <input type="text" id="input1" name="input1">
+      <button id="calc">Submit</button>
+    <div class="response" id="response"></div>
+  </div>
+
+  <script>
+    // Add your JavaScript code here
+    document.getElementById('fileInput').addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imagePreview = document.getElementById('imagePreview');
+          imagePreview.innerHTML = '<img src="' + e.target.result + '" alt="Uploaded Image" style="max-width: 100%; max-height: 300px;">';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('calculateBtn').addEventListener('click', function() {
+      const input = document.getElementById('input').value;
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      if (input && file) {
+        const formData = new FormData();
+        formData.append('input', input);
+        formData.append('image', file);
+        fetch('/calculate', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          const responseDiv = document.getElementById('response');
+          responseDiv.innerHTML = '<h2>The Response is</h2>' + data.response;
+        })
+        .catch(error => console.error('Error:', error));
+      } else {
+        alert('Please provide both input and image.');
+      }
+    });
+    document.getElementById('calc').addEventListener('click', function(){
+      
+    })
+  </script>
+</body>
+</html>
