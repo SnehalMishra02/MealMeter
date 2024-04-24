@@ -1,0 +1,155 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="maindiv">
+   
+    <div>
+        <div class="share" id="share" onclick="toggleDropdown()">
+            Share Your Meal    
+        </div>
+
+        <div class="share" id="show">
+            <div class="image-preview" id="imagePreview"></div>
+            <input type="file" id="fileInput" accept=".jpg, .jpeg, .png">
+            <button id="calculateBtn">Calculate</button>
+            <div>
+                <h1><span></span></h1>
+                <div class="response" id="response"></div>
+                <div class="total-calories" id="totalCalories"></div>
+            </div>
+        </div>
+        <a style="text-decoration: none;" href="{{ url_for('meal')}}">
+            <div class="personalize">Your Meal Plan</div>
+        </a>
+    </div>
+    <div class="speedometer">
+      <div class="calories">
+          <p><b>Calorie meter</b></p>
+          <div class="calorie-bar"></div>
+          <p id="calorieCount"> <span id="calValue">0</span> / 1750</p>
+          <div class="face">
+              <i id="faceIcon" class="fa-solid fa-face-smile"></i>
+              <p id="faceText">Keep Going!</p>
+          </div>
+      </div>
+      <div id="wallet">
+      </div>
+  </div>
+</div>
+
+<script>
+    document.getElementById('fileInput').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.innerHTML = '<img src="' + e.target.result + '" alt="Uploaded Image" style="max-width: 100%; max-height: 300px;">';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('calculateBtn').addEventListener('click', function() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+    const textInput = ""; // Assuming textInput is defined somewhere
+
+    if (file || textInput.trim() !== '') {
+        const formData = new FormData();
+
+        if (file) {
+            formData.append('image', file);
+        }
+
+        fetch('/calculate', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const responseDiv = document.getElementById('response');
+            if (data && data.response) {
+                let value = data.response;
+                var parts = value.split("\n");
+                var newstring = "";
+                for (var i = 0; i < parts.length; i++) {
+                    newstring = newstring + "<br>" + parts[i];
+                }
+                responseDiv.innerHTML = newstring;
+
+                var total = parts[parts.length - 1];
+                var total_value = total.substring(16, total.length - 9);
+                var total_numeric = parseFloat(total_value);
+
+                // Check if the conversion was successful and the value is a number
+                if (!isNaN(total_numeric)) {
+                    // Get the current numeric value of calValue element
+                    var cal_val = parseFloat(document.getElementById('calValue').innerHTML);
+
+                    // Check if the current value of calValue is a valid number
+                    if (!isNaN(cal_val)) {
+                        // Add the extracted numeric value to the current value of calValue
+                        cal_val += total_numeric;
+
+                        // Update the content of calValue element with the new total
+                        document.getElementById('calValue').innerHTML = cal_val;
+
+                        // Create CSV data
+                        const csvData = `${getCurrentDateTime()},${total_numeric}\n`;
+
+                        // Save CSV data to a file
+                        saveDataToCSV(csvData);
+                    } else {
+                        console.error('Invalid current value for calValue');
+                    }
+                } else {
+                    console.error('Unable to extract a valid numeric value from total');
+                }
+
+            } else {
+                responseDiv.innerHTML = "No data found.";
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    } else {
+        alert('Please provide image or manual text.');
+    }
+});
+
+function getCurrentDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;  
+}
+
+function saveDataToCSV(csvData) {
+    // Retrieve existing CSV data from local storage
+    let existingCSVData = localStorage.getItem('outputCSV');
+
+    // Append new CSV data to existing data
+    if (existingCSVData) {
+        existingCSVData += csvData;
+    } else {
+        existingCSVData = csvData;
+    }
+
+    // Save combined CSV data back to local storage
+    localStorage.setItem('outputCSV', existingCSVData);
+
+    // Optional: Display a message indicating successful append
+    console.log('Data appended to output.csv in local storage.');
+}
+
+
+</script>
+{% endblock %}

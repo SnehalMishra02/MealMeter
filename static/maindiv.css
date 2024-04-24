@@ -1,0 +1,240 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.maindiv {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    padding-top: 150px; /* Add padding-top to maintain spacing */
+    gap: 10px;
+    justify-content: space-around;
+}
+
+.calories {
+    width: 50%;
+}
+
+.user {
+    width: 50%;
+}
+
+.calories p {
+    text-align: center;
+}
+
+.user div {
+    border: 3px solid #1a2d2d;
+    margin: 0px;
+    padding: 10px;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #1a2d2ddb;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 0;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.dropdown-content input {
+    margin-bottom: 10px;
+}
+
+.dropdown-content input[type="file"] {
+    display: block;
+}
+
+.dropdown-content input[type="text"] {
+    width: 100%;
+    padding: 5px;
+}
+
+.share{
+    width:30vw;
+    display:flex;
+    margin-left: 15px; 
+    height: 25vh;
+    font-size:3em;
+    align-items: center;
+    justify-content:center;
+    border: 5px solid #1a2d2d;
+    background-color: #1a2d2d;
+    color: white;
+}
+
+.share:hover {
+    cursor: pointer;
+    background-color: #3d6a6a;
+    color: white;
+}
+
+
+
+#show{
+  grid-row-start: 2;
+  grid-row-end: 3;
+  display: none;
+  font-size: 1.5vw;
+  color: #fff;
+  min-height: 25vh;
+  height: auto;
+  padding: 40px 5px;
+  cursor:default;
+}
+
+#show img {
+  width: 80%;
+  text-align: center;
+}
+
+#show input{
+  background: none;
+}
+
+#calculateBtn{
+  position: relative;
+  bottom: 0;
+  width: 70%;
+  text-align: center;
+  background-color:#fff ;
+  border-radius: 20px;
+  font-family: roboto;
+  color: black;
+  cursor: pointer;
+}
+#fileInput{
+  position: relative;
+  bottom: 0;
+  background-color:#1a2d2d ;
+  font-family: roboto;
+  color: white;
+}
+
+#share{
+  grid-row-start: 1;
+  grid-row-end: 2;
+  
+}
+
+
+.personalize{
+    display:flex;
+    margin-left: 15px; 
+    height: 25vh;
+    width:30vw;
+    font-size:3em;
+    align-items: center;
+    justify-content:center;
+    border: 5px solid #1a2d2d;
+    border: 5px solid #1a2d2d;
+    background-color: #1a2d2d;
+    color: white;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    text-decoration: none;
+    
+}
+.personalize a{
+  text-decoration: none;
+}
+.personalize:hover{
+  cursor: pointer;
+  background-color: #3d6a6a;
+  color: white;
+}
+/* .rightside{
+  position: fixed;
+  left: 5vw;
+  display: grid;
+  grid-template-columns: 30vw;
+  grid-template-rows: 25vh auto 25vh;
+  row-gap: 3vh;
+} */
+
+.speedometer {
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  position: relative;
+  font-family: roboto;
+  /* margin-left: 60vw; */
+}
+
+.speedometer::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  bottom: -10px;
+  left: -10px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 15px #00FFFF;
+  z-index: -1;
+}
+
+.speedometer.above-1750::before {
+  box-shadow: inset 0 0 0 15px #32CD32;
+}
+
+.speedometer.above-2000::before {
+  box-shadow: inset 0 0 0 15px #8B0000;
+}
+  
+  .calories {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .face {
+    margin-top: 20px;
+  }
+  
+  .fa-face-smile,
+  .fa-face-angry {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+
+  
+  @media (max-width: 768px) {
+    .maindiv {
+      flex-direction: column;
+      height: auto;
+    }
+  
+    .speedometer {
+      margin: 0 auto;
+    }
+  
+    .rightside,
+    .personalize {
+      width: 80%;
+      margin: 20px auto;
+    }
+  }
+
+  /* maindiv.css */
+.share,
+.personalize {
+  font-size: 2.5vw;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: "Roboto";
+  border-radius: 25px;
+}
+
+.response h1 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+

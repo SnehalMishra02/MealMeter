@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <form action="/meal" method="post">
+        
+        {{ form.hidden_tag() }}
+        {{ form.weight.label(class = "text", id = "") }}
+    
+        {{ form.weight(class = "values", id = "") }}
+        {{ form.calorie.label(class = "text", id = "") }}
+        
+        {{ form.calorie(class = "values", id = "") }}
+        {{ form.submit }}
+        
+    </form>
+
+    {% if result %}
+        {% for day in result %}
+
+            <div class="day">
+                {{day}}
+                <span class="end"><i class="fa-solid fa-caret-down"></i></span>
+
+                <div class="food">{{result[day]}}</div>
+            </div>
+            <br><br><br>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+

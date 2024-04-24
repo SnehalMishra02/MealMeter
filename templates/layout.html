@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <script defer src="{{ url_for('static', filename= 'caloriecount.js') }}"></script> -->
+    <!-- <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename= 'maindiv.css')}}"> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealMeter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename= 'maindiv.css')}}">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename= 'nav-bar.css')}}">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename= 'dropdown.css')}}">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename= 'speedometer.css')}}">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', filename= 'meal.css')}}">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="left">
+            <a href="home">MealMeter</a>
+        </div>
+        <div class="right">
+            <a href="#">Profile <i class="fa-solid fa-user"></i></a>
+            <a href="#">Progress <i class="fa-solid fa-bars-progress"></i></a>
+        </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <script defer src="{{ url_for('static', filename= 'input.js') }}"></script>
+    <script defer src="{{ url_for('static', filename= 'caloriecount.js') }}"></script>
+    </body>
+</html>
