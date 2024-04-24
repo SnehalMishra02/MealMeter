@@ -1,0 +1,1 @@
+Insert your google gen ai key in the .env file
